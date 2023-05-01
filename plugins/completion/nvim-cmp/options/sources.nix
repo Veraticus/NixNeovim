@@ -56,11 +56,15 @@ let
     cmp_pandoc = { packages = [ cmp-pandoc-nvim ]; };
     cmp_tabnine = { packages = [ cmp-tabnine ]; };
     conventionalcommits = { packages = [ cmp-conventionalcommits ]; };
+<<<<<<< HEAD:plugins/completion/nvim-cmp/options/sources.nix
     <<<<<<< HEAD:plugins/completion/nvim-cmp/options/sources.nix
     copilot = { packages = [ ]; };
     =======
     copilot = { };
     >>>>>>> b6f01ee (Fix cmp-copilot):src/plugins/_nvim-cmp-modules/sources.nix
+=======
+    copilot = { packages = [ ]; };
+>>>>>>> a4d1870 (Packages is apparently required):src/plugins/_nvim-cmp-modules/sources.nix
     crates = { packages = [ crates-nvim ]; extraConfig = "require('crates').setup()"; };
     dap = { packages = [ cmp-dap ]; };
     dictionary = { packages = [ cmp-dictionary ]; };
