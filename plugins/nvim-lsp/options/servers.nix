@@ -39,7 +39,7 @@ let
       languages = "C, C++";
       packages = [ clang-tools ];
     };
-    csharp-ls = {
+    csharp_ls = {
       languages = "C#";
       packages = [ ];
     };
