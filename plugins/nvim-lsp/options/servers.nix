@@ -119,10 +119,6 @@ let
       languages = "HCL";
       serverName = "terraformls";
     };
-    terraform-ls = {
-      languages = "HCL";
-      serverName = "terraformls";
-    };
     texlab = {
       languages = "latex";
     };
