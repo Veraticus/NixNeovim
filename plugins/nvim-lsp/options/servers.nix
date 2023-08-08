@@ -53,6 +53,7 @@ let
     };
     gopls = {
       languages = "Go";
+      packages = [ gopls ];
     };
     hls = {
       languages = "Haskell";
@@ -75,9 +76,9 @@ let
       languages = "text files";
       packages = [ ltex-ls ];
     };
-    lua-language-server = {
+    lua_ls = {
       languages = "Lua";
-      packages = [ pkgs.lua-language-server ];
+      packages = [ lua-language-server ];
     };
     nil = {
       languages = "Nix";
@@ -104,11 +105,15 @@ let
       languages = "Python";
       serverName = "ruff_lsp";
       packages = optional (builtins.hasAttr "ruff-lsp" pkgs) [ ruff-lsp ] # on unstable
-      ++ optional (builtins.hasAttr "ruff-lsp" python310Packages) [ python310Packages.ruff-lsp ]; # on 23.05
+        ++ optional (builtins.hasAttr "ruff-lsp" python310Packages) [ python310Packages.ruff-lsp ]; # on 23.05
     };
     taplo = {
       languages = "TOML";
       packages = [ taplo ];
+    };
+    terraform-ls = {
+      languages = "HCL";
+      serverName = "terraformls";
     };
     terraform-ls = {
       languages = "HCL";
