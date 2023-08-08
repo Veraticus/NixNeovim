@@ -39,6 +39,10 @@ let
       languages = "C, C++";
       packages = [ clang-tools ];
     };
+    csharp-ls = {
+      languages = "C#";
+      packages = [ csharp-ls ];
+    };
     cssls = {
       languages = "CSS";
       packages = [ nodePackages.vscode-langservers-extracted ];
@@ -110,10 +114,6 @@ let
     taplo = {
       languages = "TOML";
       packages = [ taplo ];
-    };
-    terraform-ls = {
-      languages = "HCL";
-      serverName = "terraformls";
     };
     terraform-ls = {
       languages = "HCL";
