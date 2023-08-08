@@ -41,7 +41,7 @@ let
     };
     csharp-ls = {
       languages = "C#";
-      packages = [ csharp-ls ];
+      packages = [ pkgs.csharp-ls ];
     };
     cssls = {
       languages = "CSS";
