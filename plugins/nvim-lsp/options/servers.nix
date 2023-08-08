@@ -82,7 +82,7 @@ let
     };
     lua_ls = {
       languages = "Lua";
-      packages = [ ];
+      packages = [ lua-language-server ];
     };
     nil = {
       languages = "Nix";
@@ -114,6 +114,10 @@ let
     taplo = {
       languages = "TOML";
       packages = [ taplo ];
+    };
+    terraform-ls = {
+      languages = "HCL";
+      serverName = "terraformls";
     };
     terraform-ls = {
       languages = "HCL";
