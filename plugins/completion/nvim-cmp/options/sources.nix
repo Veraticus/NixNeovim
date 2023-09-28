@@ -96,7 +96,8 @@ let
 
   plugins = mapAttrs fillMissingInfo sourcesSet;
 
-in {
+in
+{
 
   # nix module options for all sources
   options = mapAttrs mkSourceOption plugins;
@@ -112,8 +113,7 @@ in {
   # list of the sources config for cmp
   # output format [ { ["name"] = "<name>" } ]
   config =
-      mapAttrsToList
-        (name: attrs: { name = name; } // (keyToSnake (removeEnable attrs)) )
-        (activated cfg-sources);
-
+    mapAttrsToList
+      (name: attrs: { name = name; } // (attrKeysToSnake (removeEnable attrs)))
+      (activated cfg-sources cfg-sources);
 }
