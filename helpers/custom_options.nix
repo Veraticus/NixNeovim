@@ -34,6 +34,7 @@ let
     bool = nullOr bool;
     int = nullOr int;
     str = nullOr str;
+    float = nullOr float;
     list = nullOr (listOf anything);
     attrs = nullOr (attrsOf anything);
     enum = enums: nullOr (enum enums);
@@ -48,7 +49,7 @@ let
       else
         true;
 
-        
+
   };
 
 in with myTypes; {
@@ -74,6 +75,13 @@ in with myTypes; {
       description = escapeXML description;
     };
 
+  floatOption = default: description:
+    mkOption {
+      type = float;
+      default = usePlugDef default;
+      description = escapeXML description;
+    };
+
   strOption = default: description:
     mkOption {
       type = str;
@@ -86,6 +94,14 @@ in with myTypes; {
       type = rawLuaType;
       default = rawLua (usePlugDef default);
       description = escapeXML description;
+    };
+
+  rawLuaOptionExample = default: description: example:
+    mkOption {
+      type = rawLuaType;
+      default = rawLua (usePlugDef default);
+      description = escapeXML description;
+      example = example;
     };
 
   attrsOption = default: description:

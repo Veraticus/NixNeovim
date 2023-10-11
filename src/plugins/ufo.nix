@@ -4,8 +4,8 @@ let
   inherit (helpers.generator)
      mkLuaPlugin;
 
-  name = "PLUGIN_NAME";
-  pluginUrl = "PLUGIN_URL";
+  name = "ufo";
+  pluginUrl = "https://github.com/kevinhwang91/nvim-ufo";
 
   inherit (helpers.custom_options)
     strOption
@@ -37,5 +37,15 @@ in mkLuaPlugin {
   inherit name moduleOptions pluginUrl;
   extraPlugins = with pkgs.vimExtraPlugins; [
     # add neovim plugin here
+    nvim-ufo
+    promise-async
   ];
+
+  extraConfigLua = ''
+    vim.o.foldcolumn = '1' -- '0' is not bad
+    vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+    vim.o.foldlevelstart = 99
+    vim.o.foldenable = true
+  '';
+
 }
