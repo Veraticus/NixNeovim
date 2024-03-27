@@ -1,5 +1,5 @@
 
-# NixNeovim - A Neovim configuration module for NixOs
+# NixNeovim - A Neovim configuration module for NixOS
 
 This flake provides modules for NixOS and Home Manager, which provide the `nixneovim` configuration options.
 Using `nixneovim`, you can configure Neovim, including plugins, through nix.
@@ -7,7 +7,8 @@ This makes your Neovim config reproducible, and easier to manage.
 
 #### Forked
 
-This is originally based on [pta2002/nixvim](https://github.com/pta2002/nixvim).
+This was originally based on [pta2002/nixvim](https://github.com/pta2002/nixvim).
+However, today, it shares very little code, approaches problems very differently, and is completely independent.
 
 ## Get Ready
 
@@ -20,7 +21,7 @@ inputs.nixneovim.url = "github:nixneovim/nixneovim";
 ```
 
 Then, apply the overlay and import the modules.
-This is needed, because NixNeovim uses [nixpkgs-vim-extra-plugins](https://github.com/jooooscha/nixpkgs-vim-extra-plugins) to get access to more Neovim plugins.
+This is needed, because NixNeovim uses [NixNeovimPlugins](https://github.com/NixNeovim/NixNeovimPlugins) to get access to more Neovim plugins.
 
 ```nix
 {
@@ -72,10 +73,12 @@ A wiki for all options will be available in the near future.
     
     # to install plugins just activate their modules
     plugins = {
-      lsp = {
+      lspconfig = {
         enable = true;
-        hls.enable = true;
-        rust-analyzer.enable = true;
+        servers = {
+          hls.enable = true;
+          rust-analyzer.enable = true;
+        };
       };
       treesitter = {
         enable = true;
@@ -91,7 +94,7 @@ A wiki for all options will be available in the near future.
     # Not all plugins have own modules
     # You can add missing plugins here
     # `pkgs.vimExtraPlugins` is added by the overlay you added at the beginning
-    # For a list of available plugins, look here: [available plugins](https://github.com/jooooscha/nixpkgs-vim-extra-plugins/blob/main/plugins.md)
+    # For a list of available plugins, look here: [available plugins](https://github.com/NixNeovim/NixNeovimPlugins/blob/main/plugins.md)
     extraPlugins = [ pkgs.vimExtraPlugins.<plugin> ];
   };
 }
@@ -209,7 +212,7 @@ You can define augroups with the `augroups` option.
 
 ### Supported language servers
 
-Until we find a better way of documenting this, you can find a list of supported language servers here: [servers.nix](https://github.com/NixNeovim/NixNeovim/blob/main/plugins/nvim-lsp/options/servers.nix)
+Until we find a better way of documenting this, you can find a list of supported language servers here: [servers.nix](./src/plugins/_lspconfig-modules/servers.nix)
 
 ## Contribution
 
@@ -250,6 +253,8 @@ They help improve this project and keep it up to date.
     - `boolOption, intOption, strOption, attrsOption, enumOption`
 
 #### Auto generate module options
+
+⚠️ This is script is under active development and is heavily changed and exented in [this PR](https://github.com/NixNeovim/NixNeovim/pull/80). Please be careful ⚠️
 
 - With `nix run .#configparser` you can convert a Lua setup configs to nix module options (you might need to update the submodule with `git submodule update tree-sitter-lua`).
 - For example, you can input the following Lua configs (taken from [NvimTree](https://github.com/nvim-tree/nvim-tree.lua); Example-comment added)
@@ -304,11 +309,6 @@ In the long term, all modules should be rewritten to use the `mkLuaPlugin` funct
 - The current logo took me 20 seconds to make.
 - I think this project deserves better
 
-## ⚠ Old Readme ⚠
-
-The rest of this readme is still in its original state from the fork.
-It has not yet been updated, and may contain wrong information.
-
 
 ## Options
 
@@ -340,3 +340,7 @@ leader key. This is easy with the `globals` attribute:
   };
 }
 ```
+
+## Support me personally
+
+<a href="https://www.buymeacoffee.com/jooooscha" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>

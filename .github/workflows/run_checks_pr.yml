@@ -1,0 +1,16 @@
+name: Run Checks PR
+
+on:
+  # push:
+  # workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  update-plugins:
+    runs-on: ubuntu-latest
+    name: Check PR
+    steps:
+      - name: Run checks
+        uses: NixNeovim/NixNeovim/.github/actions/checks@main

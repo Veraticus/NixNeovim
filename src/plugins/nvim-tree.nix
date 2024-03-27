@@ -5,7 +5,7 @@ let
 in
 {
   options.programs.nixneovim.plugins.nvim-tree = {
-    enable = mkEnableOption "Enable nvim-tree";
+    enable = mkEnableOption "nvim-tree";
 
     disableNetrw = mkOption {
       type = types.nullOr types.bool;
@@ -48,6 +48,11 @@ in
     };
 
     updateCwd = mkOption {
+      type = types.nullOr types.bool;
+      default = null;
+    };
+
+    syncRootWithCwd = mkOption {
       type = types.nullOr types.bool;
       default = null;
     };
@@ -202,6 +207,7 @@ in
         open_on_tab = cfg.openOnTab;
         hijack_cursor = cfg.hijackCursor;
         update_cwd = cfg.updateCwd;
+        sync_root_with_cwd = cfg.syncRootWithCwd;
         hijack_directories = {
           enable = cfg.hijackDirectories.enable;
           auto_open = cfg.hijackDirectories.autoOpen;

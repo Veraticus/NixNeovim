@@ -1,4 +1,4 @@
-{ lib, pkgs, helpers, ... }:
+{ lib, pkgs, helpers, state }:
 
 
 let
@@ -7,7 +7,6 @@ let
   inherit (lib)
     mkOption
     mkEnableOption
-    optional
     flatten
     mapAttrs
     mapAttrsToList
@@ -41,7 +40,7 @@ let
   serversSet = with pkgs; {
     bashls = {
       languages = "Bash";
-      packages = [ nodePackages.bash-language-server ];
+      packages = [ nodePackages.bash-language-server shellcheck ];
     };
     clangd = {
       languages = "C, C++";
@@ -86,33 +85,33 @@ let
     lua-language-server = {
       languages = "Lua";
       packages = [ pkgs.lua-language-server ];
+      serverName = "lua_ls";
     };
     nil = {
       languages = "Nix";
       serverName = "nil_ls";
     };
+    ocamllsp = {
+      languages = "OCaml";
+      packages = [ pkgs.ocamlPackages.ocaml-lsp ];
+    };
     pyright = {
       languages = "Python";
-    };
-    rnix-lsp = {
-      languages = "Nix";
-      packages = [ rnix-lsp ];
-      serverName = "rnix";
     };
     rust-analyzer = {
       languages = "Rust";
       serverName = "rust_analyzer";
-      packages = [ cargo rust-analyzer ];
-    };
-    statix = {
-      languages = "Nix";
-      packages = [ statix ];
+      packages = [ cargo rust-analyzer rustc ];
     };
     ruff-lsp = {
       languages = "Python";
       serverName = "ruff_lsp";
-      packages = optional (builtins.hasAttr "ruff-lsp" pkgs) [ ruff-lsp ] # on unstable
-      ++ optional (builtins.hasAttr "ruff-lsp" python310Packages) [ python310Packages.ruff-lsp ]; # on 23.05
+      # packages = [ ruff-lsp ];
+      packages =
+        if state > 2305 then
+          [ ruff-lsp ]
+        else
+          [ python3Packages.ruff-lsp ];
     };
     taplo = {
       languages = "TOML";
@@ -125,10 +124,20 @@ let
     texlab = {
       languages = "latex";
     };
+    typescript-language-server = {
+      languages = "typescript";
+      serverName = "tsserver";
+      packages = [ nodePackages.typescript-language-server ];
+    };
     typst-lsp = {
       languages = "Typst";
       serverName = "typst_lsp";
       packages = [ typst-lsp ];
+    };
+    svelte-language-server = {
+      languages = "svelte";
+      serverName = "svelte";
+      packages = [ nodePackages.svelte-language-server ];
     };
     vuels = {
       languages = "Vue";

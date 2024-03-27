@@ -5,7 +5,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     nmd = {
-      url = "sourcehut:~rycee/nmd";
+      url = "sourcehut:~rycee/nmd?rev=fb9cf8e991487c6923f3c654b8ae51b6f0f205ce";
       flake = false;
     };
     nmt = {
@@ -38,9 +38,11 @@
         homeManager = import ./nixneovim.nix { homeManager = true; inherit haumea; };
         homeManager-22-11 = import ./nixneovim.nix { homeManager = true; state = 2211; inherit haumea;  };
         homeManager-23-05 = import ./nixneovim.nix { homeManager = true; state = 2305; inherit haumea;  };
+        homeManager-23-11 = import ./nixneovim.nix { homeManager = true; state = 2311; inherit haumea;  };
         nixos = import ./nixneovim.nix { homeManager = false; inherit haumea; };
         nixos-22-11 = import ./nixneovim.nix { homeManager = false; state = 2211; inherit haumea; };
         nixos-23-05 = import ./nixneovim.nix { homeManager = false; state = 2305; inherit haumea; };
+        nixos-23-11 = import ./nixneovim.nix { homeManager = false; state = 2311; inherit haumea; };
       };
 
       overlays.default = inputs.nixneovimplugins.overlays.default;
@@ -149,10 +151,20 @@
               inherit pkgs;
               tests = import ./tests/function-tests.nix { inherit pkgs lib haumea; };
             };
+
           in
             lib.trace
               "Evaluating for ${system}"
-              lib.recursiveUpdate nmt-tests lib-checks;
+              {
+                lib = lib-checks.basic;
+                basic-colorschemes = nmt-tests.basic-colorschemes;
+                basic-group1 = nmt-tests.basic-group1;
+                basic-group2 = nmt-tests.basic-group2;
+                basic-group3 = nmt-tests.basic-group3;
+                plugins = nmt-tests.plugins;
+                colorschemes = nmt-tests.colorschemes;
+                neovim = nmt-tests.neovim;
+              };
 
       });
 }
