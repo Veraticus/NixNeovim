@@ -1,16 +1,19 @@
 { testHelper, lib }:
 
 let
-  name = "ufo";
-  nvimTestCommand = ""; # Test command to check if plugin is loaded
+  name = "nvim-tree";
+  nvimTestCommand = ""; # Test command to check if plugin is loaded (optional)
 in {
   "${name}-test" = { config, lib, pkgs, ... }:
+
     {
       config = {
 
         programs.nixneovim.plugins = {
           "${name}" = {
             enable = true;
+            view.width = "10";
+            systemOpen.cmd = "test";
             extraLua.pre = ''
               -- test lua pre comment
             '';
@@ -28,11 +31,16 @@ in {
               do
                 function setup()
                   -- test lua pre comment
-                    require('ufo').setup {}
-                    vim.o.foldcolumn = '1' -- '0' is not bad
-                    vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
-                    vim.o.foldlevelstart = 99
-                    vim.o.foldenable = true
+                  require('nvim-tree').setup {
+                    ["diagnostics"] = { ["icons"] = {} },
+                    ["filters"] = {},
+                    ["git"] = {},
+                    ["hijack_directories"] = {},
+                    ["system_open"] = { ["cmd"] = "test" },
+                    ["trash"] = {},
+                    ["update_focused_file"] = {},
+                    ["view"] = { ["width"] = "10" }
+                  }
                   -- test lua post comment
                 end
                 success, output = pcall(setup) -- execute 'setup()' and catch any errors

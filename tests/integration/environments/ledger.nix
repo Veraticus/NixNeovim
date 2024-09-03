@@ -1,16 +1,19 @@
 { testHelper, lib }:
 
 let
-  name = "ufo";
+  name = "ledger";
   nvimTestCommand = ""; # Test command to check if plugin is loaded
 in {
   "${name}-test" = { config, lib, pkgs, ... }:
+
     {
       config = {
 
         programs.nixneovim.plugins = {
           "${name}" = {
             enable = true;
+            maxwidth = 80;
+            fillstring = "   -";
             extraLua.pre = ''
               -- test lua pre comment
             '';
@@ -28,11 +31,10 @@ in {
               do
                 function setup()
                   -- test lua pre comment
-                    require('ufo').setup {}
-                    vim.o.foldcolumn = '1' -- '0' is not bad
-                    vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
-                    vim.o.foldlevelstart = 99
-                    vim.o.foldenable = true
+                  vim.g.ledger_detailed_first = true
+                  vim.g.ledger_fillstring = "    -"
+                  vim.g.ledger_fold_blanks = false
+                  vim.g.ledger_maxwidth = 80
                   -- test lua post comment
                 end
                 success, output = pcall(setup) -- execute 'setup()' and catch any errors

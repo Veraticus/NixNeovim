@@ -1,10 +1,11 @@
 { testHelper, lib }:
 
 let
-  name = "ufo";
-  nvimTestCommand = ""; # Test command to check if plugin is loaded
+  name = "tagbar";
+  nvimTestCommand = ""; # Test command to check if plugin is loaded (optional)
 in {
   "${name}-test" = { config, lib, pkgs, ... }:
+
     {
       config = {
 
@@ -22,17 +23,12 @@ in {
 
         nmt.script = testHelper.moduleTest ''
           assertDiff "$normalizedConfig" ${
-            pkgs.writeText "init.lua-expected" ''
+            pkgs.writeText "init.lua-expected" /* lua */ ''
               ${testHelper.config.start}
               -- config for plugin: ${name}
               do
                 function setup()
                   -- test lua pre comment
-                    require('ufo').setup {}
-                    vim.o.foldcolumn = '1' -- '0' is not bad
-                    vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
-                    vim.o.foldlevelstart = 99
-                    vim.o.foldenable = true
                   -- test lua post comment
                 end
                 success, output = pcall(setup) -- execute 'setup()' and catch any errors

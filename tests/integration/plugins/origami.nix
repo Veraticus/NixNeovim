@@ -24,9 +24,9 @@ in {
           };
         };
 
-        nmt.script = testHelper.moduleTest ''
+        nmt.script = testHelper.moduleTest /* bash */ ''
           assertDiff "$normalizedConfig" ${
-            pkgs.writeText "init.lua-expected" ''
+            pkgs.writeText "init.lua-expected" /* lua */ ''
               ${testHelper.config.start}
               -- config for plugin: ${name}
               do
@@ -49,7 +49,7 @@ in {
             ''
           }
 
-          start_vim -c "${nvimTestCommand}"
+          check_nvim_start -c "${nvimTestCommand}"
         '';
       };
     };

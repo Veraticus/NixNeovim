@@ -1,16 +1,21 @@
 { testHelper, lib }:
 
 let
-  name = "ufo";
-  nvimTestCommand = ""; # Test command to check if plugin is loaded
+  name = "vimwiki";
+  nvimTestCommand = ""; # Test command to check if plugin is loaded (optional)
 in {
   "${name}-test" = { config, lib, pkgs, ... }:
+
     {
       config = {
 
         programs.nixneovim.plugins = {
           "${name}" = {
             enable = true;
+            list = [
+              {"path" = "~/vimwiki"; "syntax" = "markdown"; "ext" = ".md";}
+            ];
+            globalExt = 1;
             extraLua.pre = ''
               -- test lua pre comment
             '';
@@ -22,17 +27,28 @@ in {
 
         nmt.script = testHelper.moduleTest ''
           assertDiff "$normalizedConfig" ${
-            pkgs.writeText "init.lua-expected" ''
+            pkgs.writeText "init.lua-expected" /* lua */ ''
               ${testHelper.config.start}
               -- config for plugin: ${name}
               do
                 function setup()
                   -- test lua pre comment
-                    require('ufo').setup {}
-                    vim.o.foldcolumn = '1' -- '0' is not bad
-                    vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
-                    vim.o.foldlevelstart = 99
-                    vim.o.foldenable = true
+                  vim.g.vimwiki_ext2syntax = {
+                    [".markdown"] = "markdown",
+                    [".md"] = "markdown",
+                    [".mdown"] = "markdown",
+                    [".mdwn"] = "markdown",
+                    [".mkdn"] = "markdown",
+                    [".mw"] = "media"
+                  }
+                  vim.g.vimwiki_global_ext = 1
+                  vim.g.vimwiki_list = {
+                    {
+                      ["ext"] = ".md",
+                      ["path"] = "~/vimwiki",
+                      ["syntax"] = "markdown"
+                    }
+                  }
                   -- test lua post comment
                 end
                 success, output = pcall(setup) -- execute 'setup()' and catch any errors

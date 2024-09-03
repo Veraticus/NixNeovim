@@ -2,7 +2,7 @@
 
 let
   name = "NAME";
-  nvimTestCommand = ""; # Test command to check if plugin is loaded
+  nvimTestCommand = ""; # Test command to check if plugin is loaded (optional)
 in {
   "${name}-test" = { config, lib, pkgs, ... }:
 
@@ -25,7 +25,7 @@ in {
 
         nmt.script = testHelper.moduleTest ''
           assertDiff "$normalizedConfig" ${
-            pkgs.writeText "init.lua-expected" ''
+            pkgs.writeText "init.lua-expected" /* lua */ ''
               ${testHelper.config.start}
               -- config for plugin: ${name}
               do
@@ -43,7 +43,7 @@ in {
             ''
           }
 
-          start_vim -c "${nvimTestCommand}"
+          check_nvim_start -c "${nvimTestCommand}"
         '';
       };
     };

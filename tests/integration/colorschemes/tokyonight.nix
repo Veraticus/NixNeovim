@@ -1,16 +1,19 @@
 { testHelper, lib }:
 
 let
-  name = "ufo";
-  nvimTestCommand = ""; # Test command to check if plugin is loaded
+  name = "tokyonight";
+  nvimTestCommand = ""; # Test command to check if plugin is loaded (optional)
 in {
   "${name}-test" = { config, lib, pkgs, ... }:
+
     {
       config = {
 
-        programs.nixneovim.plugins = {
+        programs.nixneovim.colorschemes = {
           "${name}" = {
             enable = true;
+            style = "night";
+            darkSidebar = true;
             extraLua.pre = ''
               -- test lua pre comment
             '';
@@ -28,11 +31,20 @@ in {
               do
                 function setup()
                   -- test lua pre comment
-                    require('ufo').setup {}
-                    vim.o.foldcolumn = '1' -- '0' is not bad
-                    vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
-                    vim.o.foldlevelstart = 99
-                    vim.o.foldenable = true
+                  require('tokyonight').setup {
+                    ["dark_float"] = false,
+                    ["dark_sidebar"] = true,
+                    ["hide_inactive_statusline"] = false,
+                    ["italic_comments"] = false,
+                    ["italic_functions"] = false,
+                    ["italic_keywords"] = false,
+                    ["italic_variables"] = false,
+                    ["lualine_bold"] = false,
+                    ["style"] = "night",
+                    ["terminal_colors"] = false,
+                    ["transparent"] = false,
+                    ["transparent_sidebar"] = false
+                  }
                   -- test lua post comment
                 end
                 success, output = pcall(setup) -- execute 'setup()' and catch any errors
